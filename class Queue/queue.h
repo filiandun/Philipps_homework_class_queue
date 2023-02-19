@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <stdarg.h> // для работы конструктора с переменным количеством параметров - Queue(unsigned long long int count, ...);
 
 
 class Node
@@ -21,7 +22,13 @@ class Queue
 {
 public:
 	Queue();
-	~Queue();
+
+	Queue(const Queue& queue); // copy constructor
+	Queue(Queue&& queue) noexcept; // move constructor
+	Queue(Node* node);
+	Queue(unsigned long long int count, ...);
+
+	~Queue() = default;
 
 private:
 	Node* begin_node;
@@ -30,7 +37,14 @@ private:
 public:
 	void push(size_t num);
 	void pop();
-	void print();
+
+	void print() const;
+
+	bool comparing(unsigned long long int num);
+
+	Node* copy_in(Queue& queue_copy) const;
+	Node* operator+(Queue& queue) const;
+	Node* operator*(Queue& queue) const;
 
 };
 
